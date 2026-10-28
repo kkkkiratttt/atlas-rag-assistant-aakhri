@@ -4,7 +4,7 @@ Uses ChromaDB's DefaultEmbeddingFunction to reduce memory use on free hosting.
 import hashlib, io, os, re
 from pathlib import Path
 import chromadb
-from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
+from chromadb.utils.embedding_functions.onnx_mini_lm_l6_v2 import ONNXMiniLM_L6_V2
 from docx import Document
 from groq import Groq
 from pypdf import PdfReader
@@ -19,8 +19,8 @@ class RAGAssistant:
         self.collection = self.client.get_or_create_collection(
             "atlas_knowledge_base", metadata={"hnsw:space": "cosine"}
         )
-        # ONNX MiniLM embeddings avoid the large PyTorch/SentenceTransformers stack.
-        self.embedder = DefaultEmbeddingFunction()
+        # Keep one ONNX model instance instead of reinitializing it for every embedding call.
+        self.embedder = ONNXMiniLM_L6_V2()
         self.model = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
         self.fallbacks = [
             item.strip() for item in os.getenv("GROQ_FALLBACK_MODELS", "openai/gpt-oss-120b").split(",")
@@ -83,8 +83,19 @@ class RAGAssistant:
         for raw_name, data in files:
             name = Path(raw_name).name.strip()
             try:
-                chunks = self._split(self._extract(name, data))
-                vectors = [list(vector) for vector in self.embedder(chunks)]
+                stage = "extracting text"
+                text = self._extract(name, data)
+                stage = "splitting the extracted text into chunks"
+                chunks = self._split(text)
+                if not chunks:
+                    raise ValueError("No text chunks were created from this file.")
+                stage = f"creating embeddings for {len(chunks)} chunks"
+                vectors = []
+                # Small batches reduce peak RAM on Render's free 512 MB instance.
+                for offset in range(0, len(chunks), 8):
+                    batch_vectors = self.embedder(chunks[offset:offset + 8])
+                    vectors.extend([list(vector) for vector in batch_vectors])
+                stage = "storing chunks in ChromaDB"
                 source_id = hashlib.sha256(name.casefold().encode()).hexdigest()[:24]
                 self.collection.delete(where={"source_id": source_id})
                 ids = [hashlib.sha256(f"{source_id}:{i}".encode()).hexdigest() for i in range(len(chunks))]
@@ -92,7 +103,11 @@ class RAGAssistant:
                 self.collection.upsert(ids=ids, documents=chunks, metadatas=metadata, embeddings=vectors)
                 indexed.append({"source": name, "chunks": len(chunks)})
             except Exception as exc:
-                errors.append({"source": name or "unknown file", "error": str(exc)})
+                errors.append({
+                    "source": name or "unknown file",
+                    "stage": locals().get("stage", "initializing file"),
+                    "error": f"{type(exc).__name__}: {exc}",
+                })
         return {"indexed_files": indexed, "errors": errors, "total_chunks": sum(x["chunks"] for x in indexed),
                 "collection_chunks": self.collection.count()}
 
