@@ -2,7 +2,7 @@ services:
   - type: web
     name: atlas-rag-assistant
     runtime: docker
-    plan: starter
+    plan: standard
     region: singapore
     healthCheckPath: /api/health
     envVars:
@@ -14,6 +14,8 @@ services:
         generateValue: true
       - key: CHROMA_DB_PATH
         value: /app/data/chroma_db
+      - key: HF_HOME
+        value: /app/data/huggingface
       - key: GROQ_MODEL
         value: openai/gpt-oss-20b
       - key: GROQ_FALLBACK_MODELS
