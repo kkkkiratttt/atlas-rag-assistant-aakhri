@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: atlas-rag-assistant
+    runtime: docker
+    plan: starter
+    region: singapore
+    healthCheckPath: /health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: APP_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+    disk:
+      name: atlas-data
+      mountPath: /app/data
+      sizeGB: 1
