@@ -4,7 +4,7 @@ services:
     runtime: docker
     plan: starter
     region: singapore
-    healthCheckPath: /health
+    healthCheckPath: /api/health
     envVars:
       - key: GROQ_API_KEY
         sync: false
@@ -12,6 +12,14 @@ services:
         sync: false
       - key: SESSION_SECRET
         generateValue: true
+      - key: CHROMA_DB_PATH
+        value: /app/data/chroma_db
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+      - key: GROQ_FALLBACK_MODELS
+        value: openai/gpt-oss-120b
+      - key: COOKIE_HTTPS_ONLY
+        value: "true"
     disk:
       name: atlas-data
       mountPath: /app/data
