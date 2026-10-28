@@ -1,43 +1,41 @@
-# Atlas RAG Assistant
+# Atlas RAG Assistant — Free Demo
+
+Responsive document RAG website using FastAPI, ChromaDB, Chroma's ONNX MiniLM embedding function, and Groq.
+
+## Deploy free on Render
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kkkkiratttt/atlas-rag-assistant-final-)
 
-A responsive, full-stack RAG website using **FastAPI, ChromaDB, Sentence Transformers, and Groq**.
+1. Click the deploy button and authorize Render to access this GitHub repository.
+2. Choose the **Free** web service plan if prompted.
+3. Add `GROQ_API_KEY` from https://console.groq.com/keys.
+4. Set a strong, private `APP_PASSWORD`. Do not share this password if you don't want other people using your Groq requests.
+5. Keep the generated `SESSION_SECRET`. Wait for deployment and open the Render URL.
 
-## Features
-- Upload PDF, TXT, Markdown, and DOCX files
-- Local semantic embeddings with `all-MiniLM-L6-v2`
-- Persistent ChromaDB vector search
-- Groq-powered answers with source excerpts and [S1]-style citations
-- Responsive dark UI, document indexing, follow-up chat, and optional password protection
-- Groq API key is only used server-side
+## Free-tier limitations
+
+- Render Free provides 512 MB RAM and no persistent disk.
+- The service sleeps after 15 minutes with no inbound traffic; the next visit may take about a minute to wake up.
+- **Uploaded files and ChromaDB index are temporary.** They can be lost when the service sleeps, restarts, or redeploys. You may need to re-upload and re-index your files after a cold start.
+- Chroma's default ONNX `all-MiniLM-L6-v2` embedding function avoids loading the full PyTorch/Sentence Transformers stack. The model still needs to download on first use.
+- Intended for a class project/demo, not permanent multi-user storage.
 
 ## Run locally (Python 3.11 recommended)
 
 ```bash
-python -m venv .venv
-# Windows: .venv\\Scripts\\activate
-# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Set the environment variables:
-- `GROQ_API_KEY`: create at https://console.groq.com/keys
-- `APP_PASSWORD`: strong private password (optional locally)
-- `SESSION_SECRET`: long random secret
-- `CHROMA_DB_PATH`: persistent local path, e.g. `./data/chroma_db`
-- Optional `GROQ_MODEL` (default `openai/gpt-oss-20b`) and `GROQ_FALLBACK_MODELS` (default `openai/gpt-oss-120b`)
+Set environment variables (PowerShell example):
 
-Start with `uvicorn app:app --host 0.0.0.0 --port 8000`; open http://localhost:8000.
+```powershell
+$env:GROQ_API_KEY="your-groq-key"
+$env:APP_PASSWORD="your-private-password"
+$env:SESSION_SECRET="a-long-random-secret"
+$env:CHROMA_DB_PATH="./data/chroma_db"
+uvicorn app:app --host 0.0.0.0 --port 8000
+```
 
-## Deploy on Render
+Open http://localhost:8000. Upload PDF, TXT, Markdown, or DOCX files, click **Index documents**, and ask questions. The assistant answers with source labels and expandable excerpts.
 
-1. Click the **Deploy to Render** button above and sign in.
-2. Grant Render access to this private GitHub repo if asked, then review the Blueprint.
-3. Enter `GROQ_API_KEY` and a strong private `APP_PASSWORD` as secrets. The Blueprint generates `SESSION_SECRET`.
-4. Confirm the plan and charges before creating the service. This configuration uses Render's Standard service plan and a 1 GB persistent disk because the embedding stack needs more memory and the ChromaDB index must survive restarts. Check https://render.com/pricing before approving.
-5. Wait for the first deploy; the embedding model downloads on first startup. Open the `onrender.com` URL when the service is live.
-
-ChromaDB is stored at `/app/data/chroma_db`; the Hugging Face model cache is stored under `/app/data/huggingface`. Both are under the persistent disk.
-
-**Never commit `.env`, API keys, passwords, or the ChromaDB data folder.**
+Never commit API keys, passwords, `.env`, or ChromaDB data.
