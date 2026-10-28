@@ -1,0 +1,68 @@
+ATLAS SAMPLE KNOWLEDGE BASE
+============================
+
+This fictional sample file is provided to test document indexing and retrieval in Atlas. The policies below are made up for software demonstration purposes and do not describe a real institution.
+
+1. SUBMITTING AN IT SUPPORT REQUEST
+Students can submit a technology support request through the campus support portal. Choose “New IT Request,” select the closest category, enter a short descriptive title, explain the issue, and attach a screenshot if it helps. Select “Submit” and keep the ticket number shown on the confirmation page.
+
+If the portal is unavailable, send an email to helpdesk@example.edu with your full name, student ID, device type, a clear description of the problem, and the time it occurred. Never include a password or one-time security code in a support request.
+
+2. TICKET PRIORITY
+Critical: a campus-wide system outage that prevents many people from working.
+High: an individual cannot access a required teaching or assessment system and has no reasonable workaround.
+Normal: a standard account, application, or device issue that has a temporary workaround.
+Low: a general question or non-urgent software request.
+
+The support team aims to acknowledge critical tickets within 30 minutes, high-priority tickets within 4 business hours, normal-priority tickets within 1 business day, and low-priority tickets within 3 business days. These are target response times, not guarantees of resolution.
+
+3. CHECKING TICKET STATUS
+Open the support portal, choose “My Requests,” and select the ticket number. Statuses mean:
+Open: the request has been received.
+In progress: a support staff member is investigating.
+Waiting for user: support needs more information from the requester.
+Resolved: a proposed fix or answer has been recorded.
+Closed: the request is complete.
+
+If a ticket is waiting for user information, reply in the portal with the requested details. If the issue returns after resolution, reopen the ticket or create a follow-up request that references the original number.
+
+4. CAMPUS WI-FI TROUBLESHOOTING
+First confirm that Wi-Fi is enabled and that airplane mode is off. Select the campus network named Campus-Student. Enter the credentials assigned to your student account. If the network does not appear, move closer to a campus access point and refresh the list.
+
+If login fails, confirm that your account is active and check whether the password was recently changed. Forget the saved network and reconnect. Restart the device if needed. If multiple people are affected in the same area, report the approximate building, floor, and time to IT support.
+
+Do not attempt to bypass network controls or use another person's account. Avoid sending your password to the IT team.
+
+5. PASSWORD AND ACCOUNT SECURITY
+Use a unique password for the campus account. Enable multifactor authentication wherever it is offered. Never share login codes, passwords, recovery codes, or session cookies with anyone claiming to be support staff.
+
+If you suspect an account compromise, change your password from the official account page, sign out other sessions if that option is available, and notify IT support. If you can no longer sign in, use the official account recovery process.
+
+6. SOFTWARE ACCESS
+Students can request institution-approved software by submitting an IT request under “Software Access.” Include the application name, course or project, operating system, and the academic reason it is needed.
+
+Do not install unlicensed software or bypass a license check. Some applications are available only on university lab machines. Access may require instructor approval or a valid academic license.
+
+7. CLASSROOM TECHNOLOGY
+For a projector issue, check that the display is powered on, select the correct input source, and ensure the laptop display output is enabled. If no signal appears, reseat the cable or use an approved adapter if available.
+
+For a microphone or speaker issue, confirm the selected input and output device in the meeting or operating-system settings. If the classroom remains unusable, report the room number and equipment label to the support team.
+
+8. LOANER LAPTOPS
+A student may request a loaner laptop when a personal device has failed and the device is needed for an academic activity. Submit a request under “Device Loan,” state the course-related need, and wait for confirmation before collecting the device. Availability is limited and a request does not guarantee a laptop.
+
+9. PHISHING AND SUSPICIOUS MESSAGES
+Do not open unexpected attachments or enter credentials after following an unfamiliar link. Check the sender address and the destination of links. Report suspicious messages using the institution's official reporting channel. If you clicked a suspicious link, entered a password, or downloaded an attachment, notify IT support promptly and explain what happened.
+
+10. PRIVACY AND SUPPORT
+Only upload information needed to diagnose the issue. Remove unnecessary personal details from screenshots. IT staff should never ask you to reveal your password or multifactor authentication code.
+
+SAMPLE QUESTIONS
+- How do I submit an IT support request?
+- What are the response targets for high-priority tickets?
+- What does “Waiting for user” mean?
+- What should I try if campus Wi-Fi will not connect?
+- What should I do if I suspect my account was compromised?
+- How can I request academic software?
+- What information should I include in a loaner laptop request?
+- What should I do if I clicked a suspicious link?
