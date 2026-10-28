@@ -9,8 +9,8 @@ A responsive, full-stack RAG website using **FastAPI, ChromaDB, Sentence Transfo
 - Local semantic embeddings with `all-MiniLM-L6-v2`
 - Persistent ChromaDB vector search
 - Groq-powered answers with source excerpts and [S1]-style citations
-- Responsive dark UI with document indexing, follow-up chat, and optional password protection
-- API keys remain on the server, not in browser JavaScript
+- Responsive dark UI, document indexing, follow-up chat, and optional password protection
+- Groq API key is only used server-side
 
 ## Run locally (Python 3.11 recommended)
 
@@ -21,23 +21,23 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Set these environment variables:
+Set the environment variables:
 - `GROQ_API_KEY`: create at https://console.groq.com/keys
-- `APP_PASSWORD`: use a strong private password (optional locally)
+- `APP_PASSWORD`: strong private password (optional locally)
 - `SESSION_SECRET`: long random secret
 - `CHROMA_DB_PATH`: persistent local path, e.g. `./data/chroma_db`
 - Optional `GROQ_MODEL` (default `openai/gpt-oss-20b`) and `GROQ_FALLBACK_MODELS` (default `openai/gpt-oss-120b`)
 
-Run `uvicorn app:app --host 0.0.0.0 --port 8000` and open http://localhost:8000.
+Start with `uvicorn app:app --host 0.0.0.0 --port 8000`; open http://localhost:8000.
 
 ## Deploy on Render
 
-1. Click the **Deploy to Render** button above, sign in to Render, and grant access to this private GitHub repository if prompted.
-2. Review the Blueprint settings. This repository's `render.yaml` configures the Docker service, health check, Groq model, and persistent ChromaDB directory.
+1. Click the **Deploy to Render** button above and sign in.
+2. Grant Render access to this private GitHub repo if asked, then review the Blueprint.
 3. Enter `GROQ_API_KEY` and a strong private `APP_PASSWORD` as secrets. The Blueprint generates `SESSION_SECRET`.
-4. Confirm the plan and any charges, then create the service. Persistent disks require a paid Render web service; verify current pricing before proceeding.
-5. After the first deploy succeeds, open the Render-provided `onrender.com` URL.
+4. Confirm the plan and charges before creating the service. This configuration uses Render's Standard service plan and a 1 GB persistent disk because the embedding stack needs more memory and the ChromaDB index must survive restarts. Check https://render.com/pricing before approving.
+5. Wait for the first deploy; the embedding model downloads on first startup. Open the `onrender.com` URL when the service is live.
 
-The first startup downloads the Sentence Transformers embedding model and may take several minutes. Indexed documents persist under `/app/data/chroma_db`.
+ChromaDB is stored at `/app/data/chroma_db`; the Hugging Face model cache is stored under `/app/data/huggingface`. Both are under the persistent disk.
 
 **Never commit `.env`, API keys, passwords, or the ChromaDB data folder.**
