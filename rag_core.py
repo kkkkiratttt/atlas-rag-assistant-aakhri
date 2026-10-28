@@ -94,7 +94,7 @@ class RAGAssistant:
                 # Small batches reduce peak RAM on Render's free 512 MB instance.
                 for offset in range(0, len(chunks), 8):
                     batch_vectors = self.embedder(chunks[offset:offset + 8])
-                    vectors.extend([list(vector) for vector in batch_vectors])
+                    vectors.extend([[float(value) for value in vector] for vector in batch_vectors])
                 stage = "storing chunks in ChromaDB"
                 source_id = hashlib.sha256(name.casefold().encode()).hexdigest()[:24]
                 self.collection.delete(where={"source_id": source_id})
@@ -135,7 +135,7 @@ class RAGAssistant:
         count = self.collection.count()
         if not count:
             return {"answer": "Upload and index at least one document before asking a question.", "sources": [], "model": self.model}
-        query_vector = list(self.embedder([question])[0])
+        query_vector = [float(value) for value in self.embedder([question])[0]]
         result = self.collection.query(query_embeddings=[query_vector],
             n_results=min(max(1, min(int(top_k), 10)), count), include=["documents", "metadatas", "distances"])
         documents = (result.get("documents") or [[]])[0]
