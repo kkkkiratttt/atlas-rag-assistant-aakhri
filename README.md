@@ -1,17 +1,3 @@
-# Atlas RAG Assistant — Free Demo
-
-Responsive document RAG website using FastAPI, ChromaDB, Chroma's ONNX MiniLM embedding function, and Groq.
-
-## Deploy free on Render
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kkkkiratttt/atlas-rag-assistant-final-)
-
-1. Click the deploy button and authorize Render to access this GitHub repository.
-2. Choose the **Free** web service plan if prompted.
-3. Add `GROQ_API_KEY` from https://console.groq.com/keys.
-4. Set a strong, private `APP_PASSWORD`. Do not share this password if you don't want other people using your Groq requests.
-5. Keep the generated `SESSION_SECRET`. Wait for deployment and open the Render URL.
-
 ## Free-tier limitations
 
 - Render Free provides 512 MB RAM and no persistent disk.
